@@ -1,4 +1,4 @@
-# bingo_onekey
+# srt、sls、srs一键编译安装脚本
 一键脚本使用
 
 ```

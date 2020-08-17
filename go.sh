@@ -62,8 +62,10 @@ install_srt() {
     if [ "$ID" = "ubuntu" ]; then
 		install_srt_ubuntu
 	else
+        $LD_LIBRARY_PATH = ”/usr/local/lib64/“
 		install_srt_centos
 	fi
+
     sudo git clone https://github.com/Haivision/srt.git
     cd srt
     sudo ./configure
@@ -87,6 +89,23 @@ install_srt_ubuntu() {
 install_sls() {
     install_srt
     echo "===> Start to install srt-live-server"
+    # Check Linux version
+    if test -f /etc/os-release ; then
+	    . /etc/os-release
+    else
+	    . /usr/lib/os-release
+    fi
+
+    LD_LIBRARY_PATH = ”/usr/local/lib/“ 
+    if [ "$ID" = "centos" ]; then
+        $LD_LIBRARY_PATH = ”/usr/local/lib64/“
+	else
+	fi
+
+    #由于source命令在shell脚本中是开启子shell执行，这里先用 export 令环境变量在本次登录生效，下次登录环境变量会自动生效
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+    sudo echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> ~/.bashrc
+
     sudo git clone https://github.com/Edward-Wu/srt-live-server.git
     cd srt-live-server
     sudo make
@@ -107,14 +126,16 @@ install_srs() {
     ./objs/srs -c conf/rtmp.conf
 }
 
+
 #开始菜单
 start_menu(){
     clear
     echo
     greenbg "=============================================================="
-    greenbg "简介：一键部署直srt直播服务                                        "
-    greenbg "适用范围：Centos7、Ubuntu                                        "
-    greenbg "==============================================================="
+    greenbg "简介：一键部署srt、srt-live-server、srs服务                       "
+    greenbg "适用范围(srt)：Centos、Ubuntu                                   "
+    greenbg "适用范围(srs)：Centos、Ubuntu、Debian                           "
+    greenbg "=============================================================="
     echo
     white "—————————————环境安装——————————————"
     white "1.编译安装srt"
@@ -126,8 +147,10 @@ start_menu(){
     case "$num" in
     1)
     install_srt
-    echo "以1234"
-    srt-live-transmit srt://:1234 srt://:4201 -v
+    echo "srt直播(srt-live-transmit)测试"
+    echo "默认以srt://YourIP:4200推流，srt://YourIP:4201拉流"
+    echo "如果你使用的云服务器，请放行对应的安全组端口"
+    srt-live-transmit srt://:4200 srt://:4201 -v
 	;;
     102)
     install_sls
