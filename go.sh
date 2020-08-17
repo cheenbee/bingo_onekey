@@ -108,7 +108,6 @@ install_sls() {
     cd srt-live-server
     sudo make
     yellow "===> 以默认配置文件../sls.conf件启动sls"
-    export LD_LIBRARY_PATH=/usr/local/lib/
     cd bin
     ./sls -c ../sls.conf
 }
