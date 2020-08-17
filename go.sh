@@ -96,16 +96,13 @@ install_sls() {
 	    . /usr/lib/os-release
     fi
 
-    LD_LIBRARY_PATH
-    if [ "$ID" = "centos" ]; then
-        $LD_LIBRARY_PATH = "/usr/local/lib64/"
-	else
-        $LD_LIBRARY_PATH = "/usr/local/lib/"
-	fi
+    LD_LIBRARY_PATH="/usr/local/lib/"
+    if [ "$ID" = "centos" ]; then LD_LIBRARY_PATH="/usr/local/lib64/"; fi
 
     #由于source命令在shell脚本中是开启子shell执行，这里先用 export 令环境变量在本次登录生效，下次登录环境变量会自动生效
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+    # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
     sudo echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> ~/.bashrc
+    . ~/.bashrc
 
     sudo git clone https://github.com/Edward-Wu/srt-live-server.git
     cd srt-live-server
