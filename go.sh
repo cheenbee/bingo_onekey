@@ -41,10 +41,29 @@ install_pack() {
 
 #srt安装编译
 install_srt() {
+    # Check Linux version
+    if test -f /etc/os-release ; then
+	    . /etc/os-release
+    else
+	    . /usr/lib/os-release
+    fi
+    if [ "$ID" = "centos" ] && [ "$VERSION_ID" != "7" ] && [ "$VERSION_ID" != "8" ]; then
+	    echo -e "该脚本仅适用于 CentsOS 7  或 CentsOS 8"
+	    exit 1
+    elif [ "$ID" = "ubuntu" ] && [ "$VERSION_ID" != "14.04" ] && [ "$VERSION_ID" != "16.04" ] && [ "$VERSION_ID" != "18.04" ] && [ "$VERSION_ID" != "19.04" ] && [ "$VERSION_ID" != "20.04" ]; then
+	    echo -e "该脚本仅适用于Ubuntu 14.04、Ubuntu 16.04、Ubuntu 18.04、19.04或20.04 "
+	    exit 1
+    elif [ "$ID" != "centos" ] && [ "$ID" != "ubuntu" ]; then
+	    echo -e "该脚本仅适用于Ubuntu 14.04、Ubuntu 16.04、Ubuntu 18.04、19.04或20.04，CentsOS 7  或 CentsOS 8"
+	    exit 1
+    fi
+
     echo "===> Start to install srt" 
-    sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install tclsh pkg-config cmake libssl-dev build-essential zlib1g-dev git
+    if [ "$ID" = "ubuntu" ]; then
+		install_srt_ubuntu
+	else
+		install_srt_centos
+	fi
     sudo git clone https://github.com/Haivision/srt.git
     cd srt
     sudo ./configure
@@ -53,6 +72,18 @@ install_srt() {
     echo "srt安装完成"
 }
 
+install_srt_centos() {
+    sudo yum update
+    sudo yum install tcl pkgconfig openssl-devel cmake gcc gcc-c++ make automake git
+}
+
+install_srt_ubuntu() {
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install tclsh pkg-config cmake libssl-dev build-essential zlib1g-dev git
+}
+
+#安装sls
 install_sls() {
     install_srt
     echo "===> Start to install srt-live-server"
@@ -65,6 +96,7 @@ install_sls() {
     ./sls -c ../sls.conf
 }
 
+#安装srs
 install_srs() {
     echo "===> Start to install srs"
     sudo git clone https://github.com/ossrs/srs
@@ -74,7 +106,6 @@ install_srs() {
     echo "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
     ./objs/srs -c conf/rtmp.conf
 }
-
 
 #开始菜单
 start_menu(){
@@ -95,6 +126,7 @@ start_menu(){
     case "$num" in
     1)
     install_srt
+    echo "以1234"
     srt-live-transmit srt://:1234 srt://:4201 -v
 	;;
     102)
