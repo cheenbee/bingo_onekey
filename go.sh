@@ -58,7 +58,7 @@ install_srt() {
 	    exit 1
     fi
 
-    echo "===> Start to install srt" 
+    white "===> Start to install srt" 
     if [ "$ID" = "ubuntu" ]; then
 		install_srt_ubuntu
 	else
@@ -71,7 +71,7 @@ install_srt() {
     sudo ./configure
     sudo make
     sudo make install
-    echo "srt安装完成"
+    green "srt安装完成"
 }
 
 install_srt_centos() {
@@ -88,7 +88,7 @@ install_srt_ubuntu() {
 #安装sls
 install_sls() {
     install_srt
-    echo "===> Start to install srt-live-server"
+    white "===> Start to install srt-live-server"
     # Check Linux version
     if test -f /etc/os-release ; then
 	    . /etc/os-release
@@ -110,7 +110,7 @@ install_sls() {
     sudo git clone https://github.com/Edward-Wu/srt-live-server.git
     cd srt-live-server
     sudo make
-    echo "===> 以默认配置文../sls.conf件启动sls"
+    yellow "===> 以默认配置文../sls.conf件启动sls"
     export LD_LIBRARY_PATH=/usr/local/lib/
     cd bin
     ./sls -c ../sls.conf
@@ -123,7 +123,7 @@ install_srs() {
     cd srs/trunk
     sudo ./configure
     sudo make
-    echo "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
+    yellow "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
     ./objs/srs -c conf/rtmp.conf
 }
 
@@ -148,9 +148,9 @@ start_menu(){
     case "$num" in
     1)
     install_srt
-    echo "srt直播(srt-live-transmit)测试"
-    echo "默认以srt://YourIP:4200推流，srt://YourIP:4201拉流"
-    echo "如果你使用的云服务器，请放行对应的安全组端口"
+    blue "srt直播(srt-live-transmit)测试"
+    blue "默认以srt://YourIP:4200推流，srt://YourIP:4201拉流"
+    blue "如果你使用的云服务器，请放行对应的安全组端口"
     srt-live-transmit srt://:4200 srt://:4201 -v
 	;;
     2)
