@@ -153,7 +153,7 @@ start_menu(){
     echo "如果你使用的云服务器，请放行对应的安全组端口"
     srt-live-transmit srt://:4200 srt://:4201 -v
 	;;
-    102)
+    2)
     install_sls
 	;;
     3)
