@@ -98,9 +98,9 @@ install_sls() {
 
     LD_LIBRARY_PATH
     if [ "$ID" = "centos" ]; then
-        $LD_LIBRARY_PATH = ”/usr/local/lib64/“
+        $LD_LIBRARY_PATH = "/usr/local/lib64/"
 	else
-        $LD_LIBRARY_PATH = ”/usr/local/lib/“
+        $LD_LIBRARY_PATH = "/usr/local/lib/"
 	fi
 
     #由于source命令在shell脚本中是开启子shell执行，这里先用 export 令环境变量在本次登录生效，下次登录环境变量会自动生效
