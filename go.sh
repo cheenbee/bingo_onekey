@@ -46,14 +46,6 @@ install_docker() {
 
 #srt安装编译
 install_srt() {
-
-    if [ -f /usr/local/lib64/libsrt.a ]; then
-        green "srt已安装，接下来直接进行sls编译安装"
-    elif [ -f /usr/local/lib/libsrt.a ]; then
-        green "srt已安装，接下来直接进行sls编译安装"
-    else
-        install_srt
-    fi
     # Check Linux version
     if test -f /etc/os-release ; then
 	    . /etc/os-release
