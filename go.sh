@@ -39,6 +39,11 @@ install_pack() {
     fi    
 }
 
+#docker安装
+install_docker() {
+    
+}
+
 #srt安装编译
 install_srt() {
     # Check Linux version
@@ -65,9 +70,10 @@ install_srt() {
         $LD_LIBRARY_PATH = ”/usr/local/lib64/“
 		install_srt_centos
 	fi
-
-    sudo git clone https://github.com/Haivision/srt.git
+    
+    sudo git clone https://gitee.com/cheenbee/srt.git
     cd srt
+    sudo git remote set-url origin https://github.com/Haivision/srt.git && sudo git pull
     sudo ./configure
     sudo make
     sudo make install
@@ -99,24 +105,28 @@ install_sls() {
     LD_LIBRARY_PATH="/usr/local/lib/"
     if [ "$ID" = "centos" ]; then LD_LIBRARY_PATH="/usr/local/lib64/"; fi
 
-    #由于source命令在shell脚本中是开启子shell执行，这里先用 export 令环境变量在本次登录生效，下次登录环境变量会自动生效
-    # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+    # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH 环境变量 指定srt安装路径
     sudo echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> ~/.bashrc
     . ~/.bashrc
 
-    sudo git clone https://github.com/Edward-Wu/srt-live-server.git
+    sudo git clone https://gitee.com/cheenbee/srt-live-server.git
     cd srt-live-server
+    sudo git remote set-url origin https://github.com/Edward-Wu/srt-live-server.git && sudo git pull
     sudo make
     yellow "===> 以默认配置文件../sls.conf件启动sls"
     cd bin
     ./sls -c ../sls.conf
+    green "下面是默认的测试配置,如要测试请放行8080端口白名单"
+    green "推流地址：srt://YourServerIP:8080?streamid=uplive.sls.com/live/test"
+    green "拉流地址：srt://YourServerIP:8080?streamid=live.sls.com/live/test"
 }
 
 #安装srs
 install_srs() {
     echo "===> Start to install srs"
-    sudo git clone https://github.com/ossrs/srs
+    sudo git clone https://gitee.com/winlinvip/srs.oschina.git srs
     cd srs/trunk
+    sudo git remote set-url origin https://github.com/ossrs/srs.git && sudo git pull
     sudo ./configure
     sudo make
     yellow "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
@@ -136,7 +146,7 @@ start_menu(){
     echo
     white "—————————————环境安装——————————————"
     white "1.编译安装srt"
-    blue "2.编译安装srt-live-server"
+    white "2.编译安装srt-live-server"
     white "3.编译安装srs"
     echo
     echo
@@ -145,7 +155,7 @@ start_menu(){
     1)
     install_srt
     blue "srt直播(srt-live-transmit)测试"
-    blue "默认以srt://YourServerIP:4200推流，srt://YourServerIP:4201拉流"
+    blue "推流地址: srt://YourServerIP:4200，拉流地址: srt://YourServerIP:4201"
     blue "如果你使用的是云服务器，请放行对应的安全组端口"
     srt-live-transmit srt://:4200 srt://:4201 -v
 	;;
