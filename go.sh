@@ -103,7 +103,7 @@ install_srt_ubuntu() {
 install_sls() {
     # 检测srt是否已安装
     if [[ -f /usr/local/lib64/libsrt.a ]] || [[ -f /usr/local/lib/libsrt.a ]]; then
-        green "srt已安装，接下来直接进行sls编译安装"
+        green "检测到srt已安装，接下来进行sls编译安装"
     else
         install_srt
     fi
@@ -132,7 +132,7 @@ install_sls() {
     green "下面是默认的测试配置,如要测试请放行8080端口白名单"
     green "推流地址：srt://YourServerIP:8080?streamid=uplive.sls.com/live/test"
     green "拉流地址：srt://YourServerIP:8080?streamid=live.sls.com/live/test"
-    white "教程参考：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/kueeh5"
+    red "教程参考：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/kueeh5"
 }
 
 #安装srs
@@ -172,7 +172,7 @@ start_menu(){
     blue "推流地址: srt://YourServerIP:4200，拉流地址: srt://YourServerIP:4201"
     blue "如果你使用的是云服务器，请放行对应的安全组端口"
     srt-live-transmit srt://:4200 srt://:4201 -v
-    white "教程说明：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/va592y"
+    red "教程参考：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/va592y"
 	;;
     2)
     install_sls
