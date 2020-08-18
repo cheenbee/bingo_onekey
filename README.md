@@ -1,4 +1,7 @@
 # srt、sls、srs一键编译安装脚本
+
+[中文安装使用指南](https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf)
+
 ## 一键脚本使用
 
 ```
@@ -17,5 +20,6 @@ sudo git pull
 ```
 
 
+
 ## TODO
-docker install srt、sls、srs
+install srt、sls、srs with docker

@@ -46,6 +46,14 @@ install_docker() {
 
 #srt安装编译
 install_srt() {
+
+    if [ -f /usr/local/lib64/libsrt.a ]; then
+        green "srt已安装，接下来直接进行sls编译安装"
+    elif [ -f /usr/local/lib/libsrt.a ]; then
+        green "srt已安装，接下来直接进行sls编译安装"
+    else
+        install_srt
+    fi
     # Check Linux version
     if test -f /etc/os-release ; then
 	    . /etc/os-release
@@ -94,13 +102,11 @@ install_srt_ubuntu() {
 #安装sls
 install_sls() {
     # 检测srt是否已安装
-    update="0"
-    if [ [-f /usr/local/lib64/libsrt.a] || [-f /usr/local/lib/libsrt.a] ]; then
+    if [[ -f /usr/local/lib64/libsrt.a ]] || [[ -f /usr/local/lib/libsrt.a ]]; then
         green "srt已安装，接下来直接进行sls编译安装"
     else
         install_srt
     fi
-
     white "===> Start to install srt-live-server"
     # Check Linux version
     if test -f /etc/os-release ; then
@@ -126,6 +132,7 @@ install_sls() {
     green "下面是默认的测试配置,如要测试请放行8080端口白名单"
     green "推流地址：srt://YourServerIP:8080?streamid=uplive.sls.com/live/test"
     green "拉流地址：srt://YourServerIP:8080?streamid=live.sls.com/live/test"
+    white "教程参考：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/kueeh5"
 }
 
 #安装srs
@@ -145,11 +152,11 @@ install_srs() {
 start_menu(){
     clear
     echo
-    greenbg "=========================================="
-    greenbg "简介：一键部署srt、srt-live-server、srs服务   "
-    greenbg "适用范围(srt)：Centos、Ubuntu               "
-    greenbg "适用范围(srs)：Centos、Ubuntu、Debian        "
-    greenbg "==========================================="
+    greenbg "============================================"
+    greenbg "简介：一键部署srt、srt-live-server、srs服务     "
+    greenbg "适用范围(srt)：Centos、Ubuntu                 "
+    greenbg "适用范围(srs)：Centos、Ubuntu、Debian          "
+    greenbg "============================================="
     echo
     white "—————————————环境安装——————————————"
     white "1.编译安装srt"
@@ -165,6 +172,7 @@ start_menu(){
     blue "推流地址: srt://YourServerIP:4200，拉流地址: srt://YourServerIP:4201"
     blue "如果你使用的是云服务器，请放行对应的安全组端口"
     srt-live-transmit srt://:4200 srt://:4201 -v
+    white "教程说明：https://www.yuque.com/zizairufengdeshaonian-gqqqm/nf3lkf/va592y"
 	;;
     2)
     install_sls
