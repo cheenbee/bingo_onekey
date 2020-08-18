@@ -145,11 +145,11 @@ install_srs() {
 start_menu(){
     clear
     echo
-    greenbg "=============================================================="
-    greenbg "简介：一键部署srt、srt-live-server、srs服务                       "
-    greenbg "适用范围(srt)：Centos、Ubuntu                                   "
-    greenbg "适用范围(srs)：Centos、Ubuntu、Debian                           "
-    greenbg "=============================================================="
+    greenbg "=========================================="
+    greenbg "简介：一键部署srt、srt-live-server、srs服务   "
+    greenbg "适用范围(srt)：Centos、Ubuntu               "
+    greenbg "适用范围(srs)：Centos、Ubuntu、Debian        "
+    greenbg "==========================================="
     echo
     white "—————————————环境安装——————————————"
     white "1.编译安装srt"
