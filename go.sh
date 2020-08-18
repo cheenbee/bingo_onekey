@@ -41,7 +41,7 @@ install_pack() {
 
 #docker安装
 install_docker() {
-    
+    echo y | bash <(curl -L -s https://raw.githubusercontent.com/cheenbee/bingo_onekey/master/docker.sh)
 }
 
 #srt安装编译
@@ -93,7 +93,14 @@ install_srt_ubuntu() {
 
 #安装sls
 install_sls() {
-    install_srt
+    # 检测srt是否已安装
+    update="0"
+    if [ [-f /usr/local/lib64/libsrt.a] || [-f /usr/local/lib/libsrt.a] ]; then
+        green "srt已安装，接下来直接进行sls编译安装"
+    else
+        install_srt
+    fi
+
     white "===> Start to install srt-live-server"
     # Check Linux version
     if test -f /etc/os-release ; then
