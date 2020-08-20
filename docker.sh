@@ -7,7 +7,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 #check root
-[ $(id -u) != "0" ] && { echo "错误: 您必须以root用户运行此脚本"; exit 1; }
+# [ $(id -u) != "0" ] && { echo "错误: 您必须以root用户运行此脚本"; exit 1; }
 
 #工具安装
 install_pack() {
