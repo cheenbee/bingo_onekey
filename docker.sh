@@ -25,7 +25,8 @@ install_pack() {
 
 # @安装docker
 install_docker() {
-    docker version > /dev/null || curl -fsSL get.docker.com | bash 
+    docker version > /dev/null || curl -fsSL get.docker.com -o get-docker.sh 
+    bash get-docker.sh
     service docker restart 
     systemctl enable docker  
 }
