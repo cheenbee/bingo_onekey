@@ -21,7 +21,6 @@ install_pack() {
         echo "Package manager is not support this OS. Only support to use yum/apt."
         exit -1
     fi
-    
 }
 
 # @安装docker
@@ -29,10 +28,6 @@ install_docker() {
     docker version > /dev/null || curl -fsSL get.docker.com | bash 
     service docker restart 
     systemctl enable docker  
-}
-install_docker_compose() {
-	curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-	chmod +x /usr/local/bin/docker-compose
 }
 
 # 单独检测docker是否安装，否则执行安装docker。
@@ -46,18 +41,18 @@ check_docker() {
 		install_docker        
 	fi
 }
-check_docker_compose() {
-	if [ -x "$(command -v docker-compose)" ]; then
-		echo "docker-compose is installed"
-        echo -e "\033[32m====================================\033[0m"	
-        echo -e "\033[32m 系统已存在Docker环境                        "
-        echo -e "\033[32m====================================\033[0m"
-	else
-		echo "Install docker-compose"
-		# command
-		install_docker_compose
-	fi
-}
+# check_docker_compose() {
+# 	if [ -x "$(command -v docker-compose)" ]; then
+# 		echo "docker-compose is installed"
+#         echo -e "\033[32m====================================\033[0m"	
+#         echo -e "\033[32m 系统已存在Docker环境                        "
+#         echo -e "\033[32m====================================\033[0m"
+# 	else
+# 		echo "Install docker-compose"
+# 		# command
+# 		install_docker_compose
+# 	fi
+# }
 
 
 #开始菜单
@@ -82,7 +77,7 @@ start_menu(){
     *)
     install_pack
 	check_docker
-    check_docker_compose
+    # check_docker_compose
     echo -e "\033[32m====================================\033[0m"	
     echo -e "\033[32m 恭喜，您已经完成docker环境的安装                        "
     echo -e "\033[32m====================================\033[0m"	
