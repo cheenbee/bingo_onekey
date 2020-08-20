@@ -130,13 +130,15 @@ install_sls() {
 #安装srs
 install_srs() {
     echo "===> Start to install srs"
-    sudo git clone https://gitee.com/winlinvip/srs.oschina.git srs
-    cd srs/trunk
-    sudo git remote set-url origin https://github.com/ossrs/srs.git && sudo git pull
-    sudo ./configure
-    sudo make
-    yellow "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
-    ./objs/srs -c conf/rtmp.conf
+    docker run -p 1935:1935 -p 1985:1985 -p 8080:8080 \
+    registry.cn-hangzhou.aliyuncs.com/ossrs/srs:3
+    # sudo git clone https://gitee.com/winlinvip/srs.oschina.git srs
+    # cd srs/trunk
+    # sudo git remote set-url origin https://github.com/ossrs/srs.git && sudo git pull
+    # sudo ./configure
+    # sudo make
+    # yellow "====> 以默认配置文件conf/rtmp.conf启动rtmp实例"
+    # ./objs/srs -c conf/rtmp.conf
 }
 
 
@@ -153,7 +155,7 @@ start_menu(){
     white "—————————————环境安装——————————————"
     white "1.编译安装srt"
     white "2.编译安装srt-live-server"
-    white "3.编译安装srs"
+    white "3.Docker编译安装srs"
     echo
     echo
     read -p "请输入数字:" num
@@ -170,6 +172,7 @@ start_menu(){
     install_sls
 	;;
     3)
+    install_docker
     install_srs    
 	;;                                   
 	0)
